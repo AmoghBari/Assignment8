@@ -8,7 +8,7 @@ pipeline {
         stage('Init/Plan/Apply') {
             steps {
                 script {
-                    withAWS(region: AWS_REGION, credentials: 'MyAWSCredentials') {
+                    withAWS(region: AWS_REGION, credentials: 'AWS_ID') {
                         sh 'terraform init'
                         sh 'terraform plan'
                         sh 'terraform apply -auto-approve'
