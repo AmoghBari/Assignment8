@@ -10,5 +10,5 @@ resource "aws_key_pair" "ec2_key_pair" {
 
 resource "local_file" "private_key" {
     content = tls_private_key.ssh_key.private_key_pem
-    filename = "/home/sigmoid/private_key.pem"
+    filename = "./private_key.pem"
 }
