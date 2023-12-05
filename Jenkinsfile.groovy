@@ -43,6 +43,7 @@ pipeline {
                 } 
             }
         }
+        
         stage('Terraform Destroy') {
             when {
                 expression { params.runDestroy == true }
