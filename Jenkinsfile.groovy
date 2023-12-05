@@ -9,6 +9,7 @@ pipeline {
             steps {
                 script {
                     withAWS(region: AWS_REGION, credentials: 'AWS_ID') {
+                        sh 'terraform destroy -auto-approve'
                         sh 'terraform init'
                         sh 'terraform plan'
                         sh 'terraform apply -auto-approve'
