@@ -20,7 +20,7 @@ pipeline {
 
         stage('Create Infrastructure') {
             when {
-                expression { params.runDestroy == false }
+                expression { params.RunDestroy == false }
             }
             stages {
                 stage('Terraform Plan/Apply') {
@@ -46,7 +46,7 @@ pipeline {
         
         stage('Terraform Destroy') {
             when {
-                expression { params.runDestroy == true }
+                expression { params.RunDestroy == true }
             }
             steps {
                 script {
