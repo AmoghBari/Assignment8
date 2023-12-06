@@ -37,7 +37,7 @@ pipeline {
                     steps {
                         script {
                             sh "sudo chmod 400 /var/lib/jenkins/workspace/'AWS Terraform'/private_key.pem"
-                            sh "sudo cp /var/lib/jenkins/workspace/'AWS Terraform'/private_key.pem /home/sigmoid"
+                            sh "sudo cp /var/lib/jenkins/workspace/'AWS Terraform'/private_key.pem /home/sigmoid/"
                         }
                     }
                 } 
