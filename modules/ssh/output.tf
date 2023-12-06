@@ -11,6 +11,5 @@ output "key_pair" {
 }
 
 output "private_key_pem" {
-  description = "Private Key In PEM"
   value = tls_private_key.ssh_key.private_key_pem
 }
