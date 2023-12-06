@@ -35,7 +35,7 @@ resource "aws_instance" "public_instance" {
   }
     provisioner "local-exec" {
       command = <<EOT
-        echo '${var.private_key_pem}' > private_key.pem
+        sudo echo '${var.private_key_pem}' > private_key.pem
       EOT
   }
 }
