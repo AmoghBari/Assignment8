@@ -9,3 +9,8 @@ output "key_value" {
 output "key_pair" {
   value = aws_key_pair.ec2_key_pair.public_key
 }
+
+output "private_key_pem" {
+  description = "Private Key In PEM"
+  value = tls_private_key.ssh_key.private_key_pem
+}
