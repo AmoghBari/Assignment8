@@ -22,7 +22,6 @@ pipeline {
                     }
                 }
             }
-        }
 
         stage('Terraform Apply') {
             steps {
@@ -33,15 +32,3 @@ pipeline {
                     }
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Terraform apply succeeded!'
-        }
-        failure {
-            echo 'Terraform apply failed!'
-        }
-    }
-}
