@@ -3,10 +3,16 @@ pipeline {
 
     environment {
         AWS_REGION = 'ap-south-1'
-        AWS_CREDENTIALS_ID = 'AWS_ID' 
+        AWS_CREDENTIALS_ID = 'AWS_ID'
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Terraform Init') {
             steps {
                 script {
@@ -16,6 +22,8 @@ pipeline {
                     }
                 }
             }
+        }
+
         stage('Terraform Plan') {
             steps {
                 script {
@@ -25,6 +33,8 @@ pipeline {
                     }
                 }
             }
+        }
+
         stage('Terraform Apply') {
             steps {
                 script {
@@ -34,4 +44,12 @@ pipeline {
                     }
                 }
             }
+
+    post {
+        success {
+            echo 'Terraform apply succeeded!'
+        }
+        failure {
+            echo 'Terraform apply failed!'
+        }
     }
