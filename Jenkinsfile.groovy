@@ -7,12 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/AmoghBari/Assignment8'
-            }
-        }
-
         stage('Terraform Init') {
             steps {
                 script {
