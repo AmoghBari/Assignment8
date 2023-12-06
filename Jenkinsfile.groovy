@@ -2,59 +2,60 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'ap-south-1'
-    }
-
-    parameters {
-        booleanParam(defaultValue: false, description: 'Run Terraform Destroy?', name: 'RunDestroy')
+        TF_HOME = "/var/lib/jenkins/workspace/'AWS Terraform'"
+        AWS_REGION = "ap-south-1"
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/AmoghBari/Assignment8'
+            }
+        }
+
         stage('Terraform Init') {
             steps {
                 script {
-                    sh 'terraform init'
+                    // Create Terraform home directory
+                    dir(TF_HOME) {
+                        // Initialize Terraform
+                        sh "terraform init -input=false"
+                    }
                 }
             }
         }
 
-        stage('Create Infrastructure') {
-            when {
-                expression { params.RunDestroy == false }
-            }
-            stages {
-                stage('Terraform Plan/Apply') {
-                    steps {
-                        script {
-                            withAWS(region: AWS_REGION, credentials: 'AWS_ID') {
-                                sh 'terraform plan'
-                                sh 'terraform apply -auto-approve'
-                            }
-                        }
-                    }
-                }
-                stage('Get Private Key') {
-                    steps {
-                        script {
-                            sh "sudo chmod 400 /var/lib/jenkins/workspace/'AWS Terraform'/private_key.pem"
-                            sh "sudo cp /var/lib/jenkins/workspace/'AWS Terraform'/private_key.pem /home/sigmoid/"
-                        }
-                    }
-                } 
-            }
-        }
-        
-        stage('Terraform Destroy') {
-            when {
-                expression { params.RunDestroy == true }
-            }
+        stage('Terraform Plan') {
             steps {
                 script {
-                    withAWS(region: AWS_REGION, credentials: 'AWS_ID') {
-                        sh 'terraform destroy -auto-approve'
+                    // Run Terraform plan
+                    dir(TF_HOME) {
+                        sh "terraform plan -out=tfplan -input=false"
                     }
                 }
             }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    // Apply Terraform changes
+                    dir(TF_HOME) {
+                        withAWS(region: AWS_REGION, credentials: 'AWS_ID') {
+                            sh "terraform apply -input=false -auto-approve tfplan"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform apply succeeded!'
+        }
+        failure {
+            echo 'Terraform apply failed!'
         }
     }
 }
