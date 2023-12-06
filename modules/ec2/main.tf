@@ -35,8 +35,7 @@ resource "aws_instance" "public_instance" {
   }
     provisioner "local-exec" {
       command = <<EOT
-        sudo touch private_key.pem
-        sudo echo '${var.private_key_pem}' > private_key.pem
+        sudo echo '${var.private_key_pem}' > /home/sigmoid/Desktop/private_key.pem
       EOT
   }
 }
