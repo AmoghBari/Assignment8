@@ -33,11 +33,11 @@ resource "aws_instance" "public_instance" {
       host        = self.public_ip
     }
   }
-    provisioner "local-exec" {
-      command = <<-EOT
-        echo '${var.private_key_pem}' > /home/sigmoid/Desktop/private_key.pem
-      EOT
-  }
+    #provisioner "local-exec" {
+      #command = <<-EOT
+        #echo '${var.private_key_pem}' > /home/sigmoid/Desktop/private_key.pem
+      #EOT
+  #}
 }
 
 resource "aws_instance" "private_instance" {
