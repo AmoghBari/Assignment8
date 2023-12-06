@@ -17,7 +17,6 @@ pipeline {
                 }
             }
         }
-
         stage('Terraform Plan') {
             steps {
                 script {
@@ -28,7 +27,6 @@ pipeline {
                 }
             }
         }
-
         stage('Terraform Apply') {
             steps {
                 script {
