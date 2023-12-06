@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        TF_HOME = "/var/lib/jenkins/workspace/'AWS Terraform'"
         AWS_REGION = "ap-south-1"
     }
 
@@ -10,10 +9,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
-                    // Create Terraform home directory
-                    dir(TF_HOME) {
-                        // Initialize Terraform
-                        sh "terraform init -input=false"
+                        sh "terraform init"
                     }
                 }
             }
@@ -22,9 +18,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 script {
-                    // Run Terraform plan
-                    dir(TF_HOME) {
-                        sh "terraform plan -out=tfplan -input=false"
+                        sh "terraform plan"
                     }
                 }
             }
@@ -33,10 +27,8 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    // Apply Terraform changes
-                    dir(TF_HOME) {
                         withAWS(region: AWS_REGION, credentials: 'AWS_ID') {
-                            sh "terraform apply -input=false -auto-approve tfplan"
+                            sh "terraform apply -auto-approve"
                         }
                     }
                 }
